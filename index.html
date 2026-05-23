@@ -182,6 +182,12 @@ button:hover{
 transform:scale(1.04);
 }
 
+.pass-button{
+background:#1e293b;
+color:#ffffff;
+border:2px solid #d4af37;
+}
+
 .info{
 margin-top:25px;
 font-size:20px;
@@ -349,7 +355,8 @@ font-size:18px;
 • 2 команды<br>
 • 60 секунд на раунд<br>
 • Чем меньше открыто квадратов — тем больше очков<br>
-• Неверный ответ = переход хода
+• Неверный ответ = переход хода<br>
+• Не знаете ответ — нажмите «Передать ход»
 </div>
 
 <button class="start-button" onclick="startGame()">
@@ -376,6 +383,10 @@ placeholder="Введите название ЖК"
 
 <button onclick="checkAnswer()">
 Ответить
+</button>
+
+<button class="pass-button" onclick="passTurn()">
+Передать ход
 </button>
 
 <button onclick="restartTimer()">
@@ -612,10 +623,7 @@ playBeep("long");
 
 alert("⏰ Время вышло! Ход переходит другой команде");
 
-currentTeam = currentTeam === 1 ? 2 : 1;
-
-document.getElementById("turn").innerText =
-"Ход: Команда " + currentTeam;
+switchTeam();
 
 startTimer();
 
@@ -632,6 +640,27 @@ if(gameStarted){
 startTimer();
 
 }
+
+}
+
+function switchTeam(){
+
+currentTeam = currentTeam === 1 ? 2 : 1;
+
+document.getElementById("turn").innerText =
+"Ход: Команда " + currentTeam;
+
+}
+
+function passTurn(){
+
+if(!gameStarted) return;
+
+playBeep("short");
+
+switchTeam();
+
+startTimer();
 
 }
 
@@ -740,10 +769,7 @@ playBeep("short");
 
 alert("❌ Неверно! Ход переходит другой команде");
 
-currentTeam = currentTeam === 1 ? 2 : 1;
-
-document.getElementById("turn").innerText =
-"Ход: Команда " + currentTeam;
+switchTeam();
 
 startTimer();
 
