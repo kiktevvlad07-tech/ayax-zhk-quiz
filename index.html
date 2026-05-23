@@ -12,6 +12,7 @@ margin:0;
 padding:0;
 box-sizing:border-box;
 }
+
 body{
 font-family:Arial,sans-serif;
 background:#081225;
@@ -19,21 +20,25 @@ color:white;
 text-align:center;
 min-height:100vh;
 }
+
 header{
 padding:25px 20px;
 border-bottom:2px solid #d4af37;
 background:#0b172d;
 }
+
 h1{
 font-size:42px;
 color:#d4af37;
 margin-bottom:10px;
 }
+
 .subtitle{
 color:#cbd5e1;
 font-size:18px;
 line-height:1.5;
 }
+
 .scoreboard{
 display:flex;
 justify-content:center;
@@ -41,6 +46,7 @@ gap:30px;
 margin-top:25px;
 flex-wrap:wrap;
 }
+
 .team{
 background:#13203a;
 border:2px solid #d4af37;
@@ -50,15 +56,45 @@ font-size:22px;
 font-weight:bold;
 min-width:220px;
 }
+
 .turn{
 margin-top:20px;
 font-size:26px;
 color:#ffd700;
 font-weight:bold;
 }
+
+.timer-box{
+margin:22px auto 0;
+width:240px;
+padding:14px 20px;
+border-radius:18px;
+background:#13203a;
+border:2px solid #d4af37;
+box-shadow:0 0 18px rgba(212,175,55,0.25);
+}
+
+.timer-label{
+font-size:14px;
+color:#cbd5e1;
+margin-bottom:4px;
+}
+
+.timer{
+font-size:42px;
+font-weight:bold;
+color:#d4af37;
+}
+
+.timer.danger{
+color:#ff4d4d;
+animation:pulse 0.7s infinite;
+}
+
 .game-container{
 padding:30px 20px 50px;
 }
+
 .image-wrapper{
 position:relative;
 width:900px;
@@ -71,12 +107,14 @@ border:4px solid #d4af37;
 box-shadow:0 0 25px rgba(212,175,55,0.35);
 background:#111;
 }
+
 .image-wrapper img{
 width:100%;
 height:100%;
 object-fit:cover;
 display:block;
 }
+
 .grid{
 position:absolute;
 top:0;
@@ -87,6 +125,7 @@ display:grid;
 grid-template-columns:repeat(4,1fr);
 grid-template-rows:repeat(4,1fr);
 }
+
 .tile{
 background:#0b172d;
 border:1px solid #13203a;
@@ -99,13 +138,16 @@ font-size:32px;
 font-weight:bold;
 color:#d4af37;
 }
+
 .tile:hover{
 background:#1b2b4b;
 }
+
 .tile.hidden{
 opacity:0;
 pointer-events:none;
 }
+
 .controls{
 margin-top:35px;
 display:flex;
@@ -113,6 +155,7 @@ justify-content:center;
 gap:15px;
 flex-wrap:wrap;
 }
+
 input{
 padding:16px;
 width:320px;
@@ -122,6 +165,7 @@ font-size:18px;
 outline:none;
 background:white;
 }
+
 button{
 padding:16px 24px;
 border:none;
@@ -133,27 +177,72 @@ font-weight:bold;
 cursor:pointer;
 transition:0.3s;
 }
+
 button:hover{
 transform:scale(1.04);
 }
+
 .info{
 margin-top:25px;
 font-size:20px;
 color:#cbd5e1;
 }
+
 .footer{
 padding:30px 20px;
 color:#94a3b8;
 font-size:15px;
 line-height:1.6;
 }
+
+.winner-box{
+margin:40px auto 20px;
+padding:26px;
+background:#1e293b;
+color:#ffd700;
+font-size:24px;
+border:3px solid #d4af37;
+border-radius:20px;
+max-width:560px;
+box-shadow:0 0 25px rgba(212,175,55,0.25);
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.08);}
+100%{transform:scale(1);}
+}
+
 @media(max-width:768px){
-h1{font-size:28px;}
-.image-wrapper{height:350px;}
-.team{font-size:18px;padding:12px 18px;min-width:160px;}
-.turn{font-size:22px;}
-input{width:90%;}
-.tile{font-size:24px;}
+h1{
+font-size:28px;
+}
+
+.image-wrapper{
+height:350px;
+}
+
+.team{
+font-size:18px;
+padding:12px 18px;
+min-width:160px;
+}
+
+.turn{
+font-size:22px;
+}
+
+input{
+width:90%;
+}
+
+.tile{
+font-size:24px;
+}
+
+.timer{
+font-size:34px;
+}
 }
 </style>
 </head>
@@ -162,15 +251,23 @@ input{width:90%;}
 
 <header>
 <h1>🏙 УГАДАЙ ЖК КРАСНОДАРА</h1>
+
 <div class="subtitle">
 Интерактивный тренажёр по новостройкам<br>
 24 офис АЯКС • Разработано амбассадором 24 офиса
 </div>
+
 <div class="scoreboard">
 <div class="team">🔴 Команда 1: <span id="score1">0</span></div>
 <div class="team">🔵 Команда 2: <span id="score2">0</span></div>
 </div>
+
 <div class="turn" id="turn">Ход: Команда 1</div>
+
+<div class="timer-box">
+<div class="timer-label">Время на раунд</div>
+<div class="timer" id="timer">60</div>
+</div>
 </header>
 
 <div class="game-container">
@@ -183,6 +280,7 @@ input{width:90%;}
 <input type="text" id="answerInput" placeholder="Введите название ЖК"/>
 <button onclick="checkAnswer()">Ответить</button>
 <button onclick="nextRound()">Следующий ЖК</button>
+<button onclick="restartTimer()">Перезапустить таймер</button>
 </div>
 
 <div class="info">🎯 Чем меньше открыто квадратов — тем больше очков</div>
@@ -208,76 +306,194 @@ let currentIndex = 0;
 let currentTeam = 1;
 let scores = {1:0,2:0};
 
+let timeLeft = 60;
+let timerInterval = null;
+let audioContext = null;
+
 const image = document.getElementById("zhkImage");
 const grid = document.getElementById("grid");
+const timerEl = document.getElementById("timer");
 
 function normalizeAnswer(text){
-return text.toLowerCase().replaceAll("ё","е").replaceAll("жк","").replaceAll(".","").replaceAll(",","").replace(/\s+/g," ").trim();
+return text
+.toLowerCase()
+.replaceAll("ё","е")
+.replaceAll("жк","")
+.replaceAll(".","")
+.replaceAll(",","")
+.replace(/\s+/g," ")
+.trim();
 }
 
 function createGrid(){
 grid.innerHTML = "";
+
 for(let i=0;i<16;i++){
 const tile = document.createElement("div");
 tile.classList.add("tile");
 tile.innerText = i+1;
+
 tile.addEventListener("click", ()=>{
 tile.classList.add("hidden");
 });
+
 grid.appendChild(tile);
 }
 }
 
+function initAudio(){
+if(!audioContext){
+audioContext = new (window.AudioContext || window.webkitAudioContext)();
+}
+}
+
+function playBeep(type="short"){
+try{
+initAudio();
+
+const oscillator = audioContext.createOscillator();
+const gainNode = audioContext.createGain();
+
+oscillator.connect(gainNode);
+gainNode.connect(audioContext.destination);
+
+oscillator.type = "sine";
+
+if(type === "long"){
+oscillator.frequency.value = 220;
+gainNode.gain.value = 0.25;
+oscillator.start();
+oscillator.stop(audioContext.currentTime + 0.7);
+}else{
+oscillator.frequency.value = 880;
+gainNode.gain.value = 0.14;
+oscillator.start();
+oscillator.stop(audioContext.currentTime + 0.12);
+}
+}catch(error){}
+}
+
+function startTimer(){
+clearInterval(timerInterval);
+
+timeLeft = 60;
+timerEl.innerText = timeLeft;
+timerEl.classList.remove("danger");
+
+timerInterval = setInterval(()=>{
+timeLeft--;
+timerEl.innerText = timeLeft;
+
+if(timeLeft <= 10 && timeLeft > 0){
+timerEl.classList.add("danger");
+playBeep("short");
+}
+
+if(timeLeft <= 0){
+clearInterval(timerInterval);
+timerEl.innerText = "0";
+playBeep("long");
+alert("⏰ Время вышло! Ход переходит другой команде");
+
+currentTeam = currentTeam === 1 ? 2 : 1;
+
+document.getElementById("turn").innerText =
+"Ход: Команда " + currentTeam;
+
+startTimer();
+}
+
+},1000);
+}
+
+function restartTimer(){
+startTimer();
+}
+
 function checkAnswer(){
+initAudio();
+
 const input = document.getElementById("answerInput");
 const value = normalizeAnswer(input.value);
 const correctAnswers = zhkList[currentIndex].answers.map(a=>normalizeAnswer(a));
+
 const opened = document.querySelectorAll(".tile.hidden").length;
+
 let points = 100 - opened * 5;
-if(points<20) points=20;
+
+if(points < 20){
+points = 20;
+}
+
 if(correctAnswers.includes(value)){
-scores[currentTeam]+=points;
+scores[currentTeam] += points;
+
 document.getElementById("score1").innerText = scores[1];
 document.getElementById("score2").innerText = scores[2];
+
+playBeep("long");
+
 alert("✅ Правильно! Это " + zhkList[currentIndex].name + ". +" + points + " очков");
+
 nextRound();
+
 }else{
+playBeep("short");
+
 alert("❌ Неверно! Ход переходит другой команде");
-currentTeam = currentTeam===1?2:1;
-document.getElementById("turn").innerText = "Ход: Команда "+currentTeam;
+
+currentTeam = currentTeam === 1 ? 2 : 1;
+
+document.getElementById("turn").innerText =
+"Ход: Команда " + currentTeam;
+
+startTimer();
 }
-input.value="";
+
+input.value = "";
+}
+
+function showWinner(){
+clearInterval(timerInterval);
+
+let winnerText = "";
+
+if(scores[1] > scores[2]){
+winnerText = "🏆 Победила Команда 1!<br>Счёт: " + scores[1] + " : " + scores[2];
+}else if(scores[2] > scores[1]){
+winnerText = "🏆 Победила Команда 2!<br>Счёт: " + scores[2] + " : " + scores[1];
+}else{
+winnerText = "🤝 Ничья!<br>Счёт: " + scores[1] + " : " + scores[2];
+}
+
+document.body.insertAdjacentHTML("beforeend", `
+<div class="winner-box">
+${winnerText}
+<br><br>
+<button onclick="location.reload()">Начать заново</button>
+</div>
+`);
 }
 
 function nextRound(){
+clearInterval(timerInterval);
+
 currentIndex++;
+
 if(currentIndex >= zhkList.length){
-// Игра окончена
-let winnerText = "";
-if(scores[1] > scores[2]){
-winnerText = "🏆 Победила Команда 1! Очки: " + scores[1] + " : " + scores[2];
-}else if(scores[2] > scores[1]){
-winnerText = "🏆 Победила Команда 2! Очки: " + scores[2] + " : " + scores[1];
-}else{
-winnerText = "🤝 Ничья! Очки: " + scores[1] + " : " + scores[2];
+showWinner();
+return;
 }
-document.body.insertAdjacentHTML("beforeend", `
-<div style="margin-top:40px; padding:20px; background:#1e293b; color:#ffd700; font-size:24px; border:3px solid #d4af37; border-radius:20px; max-width:500px; margin-left:auto; margin-right:auto;">
-${winnerText}
-</div>
-`);
-currentIndex = 0;
-scores[1]=0;
-scores[2]=0;
-document.getElementById("score1").innerText=0;
-document.getElementById("score2").innerText=0;
-} else {
+
 image.src = zhkList[currentIndex].image;
+
 createGrid();
-}
+startTimer();
 }
 
 createGrid();
+startTimer();
+
 </script>
 
 </body>
