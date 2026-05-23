@@ -6,7 +6,12 @@
 <title>Угадай ЖК Краснодара</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
 body{
 font-family:Arial,sans-serif;
@@ -134,7 +139,9 @@ font-weight:bold;
 color:#d4af37;
 }
 
-.tile:hover{background:#1b2b4b;}
+.tile:hover{
+background:#1b2b4b;
+}
 
 .tile.hidden{
 opacity:0;
@@ -171,7 +178,9 @@ cursor:pointer;
 transition:0.3s;
 }
 
-button:hover{transform:scale(1.04);}
+button:hover{
+transform:scale(1.04);
+}
 
 .info{
 margin-top:25px;
@@ -243,22 +252,54 @@ cursor:pointer;
 }
 
 @media(max-width:768px){
-h1{font-size:28px;}
-.image-wrapper{height:350px;}
-.team{font-size:18px;padding:12px 18px;min-width:160px;}
-.turn{font-size:22px;}
-input{width:90%;}
-.tile{font-size:24px;}
-.timer{font-size:34px;}
-.start-screen h2{font-size:34px;}
-.start-rules{font-size:18px;}
+
+h1{
+font-size:28px;
 }
+
+.image-wrapper{
+height:350px;
+}
+
+.team{
+font-size:18px;
+padding:12px 18px;
+min-width:160px;
+}
+
+.turn{
+font-size:22px;
+}
+
+input{
+width:90%;
+}
+
+.tile{
+font-size:24px;
+}
+
+.timer{
+font-size:34px;
+}
+
+.start-screen h2{
+font-size:34px;
+}
+
+.start-rules{
+font-size:18px;
+}
+
+}
+
 </style>
 </head>
 
 <body>
 
 <header>
+
 <h1>🏙 УГАДАЙ ЖК КРАСНОДАРА</h1>
 
 <div class="subtitle">
@@ -267,22 +308,42 @@ input{width:90%;}
 </div>
 
 <div class="scoreboard">
-<div class="team">🔴 Команда 1: <span id="score1">0</span></div>
-<div class="team">🔵 Команда 2: <span id="score2">0</span></div>
+
+<div class="team">
+🔴 Команда 1:
+<span id="score1">0</span>
 </div>
 
-<div class="turn" id="turn">Ход: Команда 1</div>
+<div class="team">
+🔵 Команда 2:
+<span id="score2">0</span>
+</div>
+
+</div>
+
+<div class="turn" id="turn">
+Ход: Команда 1
+</div>
 
 <div class="timer-box">
-<div class="timer-label">Время на раунд</div>
-<div class="timer" id="timer">60</div>
+<div class="timer-label">
+Время на раунд
 </div>
+
+<div class="timer" id="timer">
+60
+</div>
+</div>
+
 </header>
 
 <div class="game-container">
 
 <div id="startScreen" class="start-screen">
-<h2>🏙 УГАДАЙ ЖК</h2>
+
+<h2>
+🏙 УГАДАЙ ЖК
+</h2>
 
 <div class="start-rules">
 • 2 команды<br>
@@ -291,43 +352,121 @@ input{width:90%;}
 • Неверный ответ = переход хода
 </div>
 
-<button class="start-button" onclick="startGame()">▶ НАЧАТЬ ИГРУ</button>
+<button class="start-button" onclick="startGame()">
+▶ НАЧАТЬ ИГРУ
+</button>
+
 </div>
 
 <div class="image-wrapper">
+
 <img id="zhkImage" src="images/narodnie.png">
+
 <div class="grid" id="grid"></div>
+
 </div>
 
 <div class="controls">
-<input type="text" id="answerInput" placeholder="Введите название ЖК"/>
-<button onclick="checkAnswer()">Ответить</button>
-<button onclick="nextRound()">Следующий ЖК</button>
-<button onclick="restartTimer()">Перезапустить таймер</button>
+
+<input
+type="text"
+id="answerInput"
+placeholder="Введите название ЖК"
+/>
+
+<button onclick="checkAnswer()">
+Ответить
+</button>
+
+<button onclick="restartTimer()">
+Перезапустить таймер
+</button>
+
 </div>
 
-<div class="info">🎯 Чем меньше открыто квадратов — тем больше очков</div>
+<div class="info">
+🎯 Чем меньше открыто квадратов — тем больше очков
 </div>
 
-<div class="footer">© Игровой инструмент 24 офиса АЯКС</div>
+</div>
+
+<div class="footer">
+© Игровой инструмент 24 офиса АЯКС
+</div>
 
 <script>
+
 const zhkList = [
-{ name:"Народные кварталы", answers:["народные кварталы","жк народные кварталы"], image:"images/narodnie.png" },
-{ name:"Югге", answers:["югге","жк югге","hugge"], image:"images/hugge.webp" },
-{ name:"Архитектор", answers:["архитектор","жк архитектор"], image:"images/arhitektor.jpg" },
-{ name:"Иначе", answers:["иначе","жк иначе"], image:"images/inache.jpg" },
-{ name:"Самолет", answers:["самолет","самолёт","жк самолет","жк самолёт"], image:"images/samolet.jpg" },
-{ name:"Образцово", answers:["образцово","жк образцово"], image:"images/obrazcovo.jpg" },
-{ name:"Форма", answers:["форма","жк форма"], image:"images/forma.jpeg" },
-{ name:"Парк Победы 2", answers:["парк победы 2","жк парк победы 2","парк победы","жк парк победы"], image:"images/park-pobedy2.jpg" },
-{ name:"Дом 101", answers:["дом 101","жк дом 101"], image:"images/dom101.jpeg" },
-{ name:"Коллекция", answers:["коллекция","жк коллекция"], image:"images/collekcia.jpg" }
+
+{
+name:"Народные кварталы",
+answers:["народные кварталы","жк народные кварталы"],
+image:"images/narodnie.png"
+},
+
+{
+name:"Югге",
+answers:["югге","жк югге","hugge"],
+image:"images/hugge.webp"
+},
+
+{
+name:"Архитектор",
+answers:["архитектор","жк архитектор"],
+image:"images/arhitektor.jpg"
+},
+
+{
+name:"Иначе",
+answers:["иначе","жк иначе"],
+image:"images/inache.jpg"
+},
+
+{
+name:"Самолет",
+answers:["самолет","самолёт","жк самолет","жк самолёт"],
+image:"images/samolet.jpg"
+},
+
+{
+name:"Образцово",
+answers:["образцово","жк образцово"],
+image:"images/obrazcovo.jpg"
+},
+
+{
+name:"Форма",
+answers:["форма","жк форма"],
+image:"images/forma.jpeg"
+},
+
+{
+name:"Парк Победы 2",
+answers:["парк победы 2","жк парк победы 2","парк победы","жк парк победы"],
+image:"images/park-pobedy2.jpg"
+},
+
+{
+name:"Дом 101",
+answers:["дом 101","жк дом 101"],
+image:"images/dom101.jpeg"
+},
+
+{
+name:"Коллекция",
+answers:["коллекция","жк коллекция"],
+image:"images/collekcia.jpg"
+}
+
 ];
 
 let currentIndex = 0;
 let currentTeam = 1;
-let scores = {1:0,2:0};
+
+let scores = {
+1:0,
+2:0
+};
 
 let timeLeft = 60;
 let timerInterval = null;
@@ -339,13 +478,19 @@ const grid = document.getElementById("grid");
 const timerEl = document.getElementById("timer");
 
 function startGame(){
+
 gameStarted = true;
+
 document.getElementById("startScreen").remove();
+
 createGrid();
+
 startTimer();
+
 }
 
 function normalizeAnswer(text){
+
 return text
 .toLowerCase()
 .replaceAll("ё","е")
@@ -354,34 +499,49 @@ return text
 .replaceAll(",","")
 .replace(/\s+/g," ")
 .trim();
+
 }
 
 function createGrid(){
+
 grid.innerHTML = "";
 
 for(let i=0;i<16;i++){
+
 const tile = document.createElement("div");
+
 tile.classList.add("tile");
+
 tile.innerText = i+1;
 
 tile.addEventListener("click", ()=>{
+
 if(gameStarted){
 tile.classList.add("hidden");
 }
+
 });
 
 grid.appendChild(tile);
+
 }
+
 }
 
 function initAudio(){
+
 if(!audioContext){
+
 audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
 }
+
 }
 
 function playBeep(type="short"){
+
 try{
+
 initAudio();
 
 const oscillator = audioContext.createOscillator();
@@ -393,38 +553,61 @@ gainNode.connect(audioContext.destination);
 oscillator.type = "sine";
 
 if(type === "long"){
+
 oscillator.frequency.value = 220;
+
 gainNode.gain.value = 0.25;
+
 oscillator.start();
+
 oscillator.stop(audioContext.currentTime + 0.7);
+
 }else{
+
 oscillator.frequency.value = 880;
+
 gainNode.gain.value = 0.14;
+
 oscillator.start();
+
 oscillator.stop(audioContext.currentTime + 0.12);
+
 }
+
 }catch(error){}
+
 }
 
 function startTimer(){
+
 clearInterval(timerInterval);
 
 timeLeft = 60;
+
 timerEl.innerText = timeLeft;
+
 timerEl.classList.remove("danger");
 
 timerInterval = setInterval(()=>{
+
 timeLeft--;
+
 timerEl.innerText = timeLeft;
 
 if(timeLeft <= 10 && timeLeft > 0){
+
 timerEl.classList.add("danger");
+
 playBeep("short");
+
 }
 
 if(timeLeft <= 0){
+
 clearInterval(timerInterval);
+
 timerEl.innerText = "0";
+
 playBeep("long");
 
 alert("⏰ Время вышло! Ход переходит другой команде");
@@ -435,24 +618,33 @@ document.getElementById("turn").innerText =
 "Ход: Команда " + currentTeam;
 
 startTimer();
+
 }
 
 },1000);
+
 }
 
 function restartTimer(){
+
 if(gameStarted){
+
 startTimer();
+
 }
+
 }
 
 function checkAnswer(){
+
 if(!gameStarted) return;
 
 initAudio();
 
 const input = document.getElementById("answerInput");
+
 const value = normalizeAnswer(input.value);
+
 const correctAnswers = zhkList[currentIndex].answers.map(a=>normalizeAnswer(a));
 
 const opened = document.querySelectorAll(".tile.hidden").length;
@@ -464,6 +656,9 @@ points = 20;
 }
 
 if(correctAnswers.includes(value)){
+
+clearInterval(timerInterval);
+
 scores[currentTeam] += points;
 
 document.getElementById("score1").innerText = scores[1];
@@ -471,11 +666,76 @@ document.getElementById("score2").innerText = scores[2];
 
 playBeep("long");
 
-alert("✅ Правильно! Это " + zhkList[currentIndex].name + ". +" + points + " очков");
+document.body.insertAdjacentHTML("beforeend", `
 
-nextRound();
+<div id="correctModal" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.75);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+">
+
+<div style="
+background:#0b172d;
+border:3px solid #d4af37;
+padding:40px;
+border-radius:24px;
+max-width:500px;
+width:90%;
+text-align:center;
+box-shadow:0 0 30px rgba(212,175,55,0.3);
+">
+
+<h2 style="
+font-size:42px;
+color:#4ade80;
+margin-bottom:20px;
+">
+✅ ПРАВИЛЬНО
+</h2>
+
+<div style="
+font-size:30px;
+margin-bottom:20px;
+color:#fff;
+">
+${zhkList[currentIndex].name}
+</div>
+
+<div style="
+font-size:24px;
+margin-bottom:35px;
+color:#d4af37;
+">
++${points} очков
+</div>
+
+<button onclick="continueGame()" style="
+padding:18px 36px;
+font-size:24px;
+background:#d4af37;
+border:none;
+border-radius:16px;
+font-weight:bold;
+cursor:pointer;
+">
+▶ Продолжить
+</button>
+
+</div>
+
+</div>
+
+`);
 
 }else{
+
 playBeep("short");
 
 alert("❌ Неверно! Ход переходит другой команде");
@@ -486,34 +746,65 @@ document.getElementById("turn").innerText =
 "Ход: Команда " + currentTeam;
 
 startTimer();
+
 }
 
 input.value = "";
+
+}
+
+function continueGame(){
+
+const modal = document.getElementById("correctModal");
+
+if(modal){
+modal.remove();
+}
+
+nextRound();
+
 }
 
 function showWinner(){
+
 clearInterval(timerInterval);
 
 let winnerText = "";
 
 if(scores[1] > scores[2]){
+
 winnerText = "🏆 Победила Команда 1!<br>Счёт: " + scores[1] + " : " + scores[2];
+
 }else if(scores[2] > scores[1]){
+
 winnerText = "🏆 Победила Команда 2!<br>Счёт: " + scores[2] + " : " + scores[1];
+
 }else{
+
 winnerText = "🤝 Ничья!<br>Счёт: " + scores[1] + " : " + scores[2];
+
 }
 
 document.body.insertAdjacentHTML("beforeend", `
+
 <div class="winner-box">
+
 ${winnerText}
+
 <br><br>
-<button onclick="location.reload()">Начать заново</button>
+
+<button onclick="location.reload()">
+Начать заново
+</button>
+
 </div>
+
 `);
+
 }
 
 function nextRound(){
+
 if(!gameStarted) return;
 
 clearInterval(timerInterval);
@@ -521,17 +812,23 @@ clearInterval(timerInterval);
 currentIndex++;
 
 if(currentIndex >= zhkList.length){
+
 showWinner();
+
 return;
+
 }
 
 image.src = zhkList[currentIndex].image;
 
 createGrid();
+
 startTimer();
+
 }
 
 createGrid();
+
 </script>
 
 </body>
